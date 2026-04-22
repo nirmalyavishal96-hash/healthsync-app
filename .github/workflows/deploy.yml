@@ -11,15 +11,15 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4   
 
       - name: Deploy to EC2
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            cd /var/www/html
-            sudo rm -rf *
-            sudo echo "Deploying HealthSync App"
+            echo "Connected to EC2"
+            sudo rm -rf /var/www/html/*
+            echo "<h1>HealthSync CI/CD Success</h1>" | sudo tee /var/www/html/index.html

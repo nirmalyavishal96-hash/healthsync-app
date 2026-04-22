@@ -21,5 +21,17 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             echo "Connected to EC2"
+
+            # Clean old files
             sudo rm -rf /var/www/html/*
-            echo "<h1>HealthSync CI/CD Success</h1>" | sudo tee /var/www/html/index.html
+
+            # Clone repo
+            git clone https://github.com/${{ github.repository }} /tmp/app
+
+            # Copy files to Nginx
+            sudo cp -r /tmp/app/* /var/www/html/
+
+            # Clean temp
+            rm -rf /tmp/app
+
+            echo "Deployment complete"
